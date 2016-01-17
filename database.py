@@ -3,6 +3,7 @@ from peewee import *
 DATABASE = SqliteDatabase('loan_payoff_data.db')
 
 class DataPoint(Model):
+    """Represents a single point of data that will be plotted"""
     initial_balance = IntegerField()
     interest_rate = DoubleField()
     monthly_deposit = IntegerField()
@@ -16,6 +17,11 @@ def initialize():
     DATABASE.create_tables([DataPoint], safe=True)
         
 def database_action(database):
+    """Decorator indicating that the function requires the usage of the database.
+    
+    The given database is opened before the decorated function is executed and closed
+    when the function is finished.
+    """
     def decorator(func):
         def new_behavior():
             database.connect()
