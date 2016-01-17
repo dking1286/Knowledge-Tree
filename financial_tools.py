@@ -8,6 +8,14 @@ def generate_years_vs_payment_data(r, Bo):
     return results
 
 def time_until_zero_balance(r, Bo, p):
+    """Calculates the time in years until a loan account will have zero balance
+    
+    Args:
+        r (float): Yearly interest rate in decimal format
+        Bo (int): Initial balance on the account
+        p (int): Monthly payment on the account
+    """
+        
     t = 0
     if account_balance(t=0, r=r, Bo=Bo, p=-p) <= account_balance(t=1, r=r, Bo=Bo, p=-p):
         return None

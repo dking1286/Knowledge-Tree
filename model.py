@@ -1,7 +1,7 @@
-from constants import (DEFAULT_INTEREST_RATE, MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE,
-                       DEFAULT_INITIAL_BALANCE, MINIMUM_INITIAL_BALANCE,
-                       MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP, INTEREST_RATE_STEP)
-from financial_tools import generate_years_vs_payment_data, decimal_range
+from constants import *
+from financial_tools import time_until_zero_balance, decimal_range
+import database
+from databse import DATABASE, database_action
 
 class Model(object):
     """Contains the internal representations of the data to be displayed.
@@ -29,14 +29,31 @@ class Model(object):
         self.interest_rate = DEFAULT_INTEREST_RATE
         self.initial_balance = DEFAULT_INITIAL_BALANCE
         self.payoff_times = dict()
-        
+    
+    @database_action(DATABASE)
     def calculate_payoff_times(self):
-        bar_val = 0
         for Bo in range(MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP):
             for r in decimal_range(MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP):
-                print("Initial balance is {0}, rate is {1}".format(Bo, r))
-                print("Progress bar value is {0}".format(bar_val))
-                self.payoff_times[(r, Bo)] = generate_years_vs_payment_data(r, Bo)
-                bar_val += 1
-                self.main.view.progress_bar.update(bar_val)
+                for p in range(MINIMUM_MONTHLY_PAYMENT, MAXIMUM_MONTHLY_PAYMENT, MONTHLY_PAYMENT_STEP):
+                    print("Calculating for initial balance {0}, rate {1}, monthly payment {2}".format(Bo, r, p))
+                    result = time_until_zero_balance(r, Bo, p)
+                    if result is not None:
+                        try:
+                            database.DataPoint.create(
+                                Bo=Bo,
+                                r=r,
+                                p=p,
+                                t=result)
+                        except database.IntegrityError:
+                            pass
+    
+    @database_action(DATABASE)
+    def load_payoff_times(self):
+        data = database.DataPoint.select()
+            for point in data:
+                Bo, r, p, t = point.Bo, point.r, point.p, point.t
+                self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
+                self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
+                self.payoff_times[Bo][r][p] = t
+
             

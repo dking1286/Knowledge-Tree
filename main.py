@@ -39,8 +39,3 @@ class Main(object):
         
 if __name__=='__main__':
     Main().main()
-    
-'''
-TODO: Currently encountering an error: maximum recursion depth reached. Is this a problem with
-    the recursive calculation of the account balance?
-'''

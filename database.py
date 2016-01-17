@@ -4,10 +4,10 @@ DATABASE = SqliteDatabase('loan_payoff_data.db')
 
 class DataPoint(Model):
     """Represents a single point of data that will be plotted"""
-    initial_balance = IntegerField()
-    interest_rate = DoubleField()
-    monthly_deposit = IntegerField()
-    payoff_time = Double_Field()
+    Bo = IntegerField()
+    r = DoubleField()
+    p = IntegerField()
+    t = Double_Field()
     
     class Meta:
         databse = DATABASE

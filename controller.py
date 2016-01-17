@@ -18,12 +18,19 @@ class Controller(object):
             
         self.main = main
         self.calculate_button = self.make_button(100, 100,
-                                          command=self.on_go_button_click,
+                                          command=self.on_calculate_button_click,
                                           text="Calculate data!")
+        self.load_button = self.make_button(200, 100,
+                                            command=self.on_load_button_click,
+                                            text="Load data!")
 
-    def on_go_button_click(self):
+    def on_calculate_button_click(self):
         self.main.task_manager.add_task(Task(
-            function=self.main.model.calculate_payoff_times)
+            function=self.main.model.calculate_payoff_times))
+    
+    def on_load_button_click(self):
+        self.main.task_manager.add_task(Task(
+            function=self.main.model.load_payoff_times))
         
     def make_button( self, x, y, command=None, text=None ):
         """Creates and places a button on the canvas
