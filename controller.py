@@ -17,13 +17,13 @@ class Controller(object):
             raise ValueError()
             
         self.main = main
-        self.go_button = self.make_button(100, 100,
+        self.calculate_button = self.make_button(100, 100,
                                           command=self.on_go_button_click,
-                                          text="GO!")
+                                          text="Calculate data!")
 
     def on_go_button_click(self):
-        go_task = Task(function=self.main.model.calculate_payoff_times)
-        self.main.task_manager.add_task(go_task)
+        self.main.task_manager.add_task(Task(
+            function=self.main.model.calculate_payoff_times)
         
     def make_button( self, x, y, command=None, text=None ):
         """Creates and places a button on the canvas
