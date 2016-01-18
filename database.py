@@ -7,13 +7,14 @@ class DataPoint(Model):
     Bo = IntegerField()
     r = DoubleField()
     p = IntegerField()
-    t = Double_Field()
+    t = DoubleField()
     
     class Meta:
         databse = DATABASE
         
 def initialize():
     """Initialize the database"""
+    print("Initializing database")
     DATABASE.create_tables([DataPoint], safe=True)
         
 def database_action(database):
@@ -23,9 +24,9 @@ def database_action(database):
     when the function is finished.
     """
     def decorator(func):
-        def new_behavior():
+        def new_behavior(*args, **kwargs):
             database.connect()
-            result = func()
+            result = func(*args, **kwargs)
             database.close()
             return result
         return new_behavior

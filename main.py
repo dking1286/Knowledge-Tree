@@ -4,6 +4,7 @@ from model import Model
 from view import View
 from controller import Controller
 from task import TaskManager
+import database
 
 class Main(object):
     """Manages the communication between the Model, View, and Controller instances
@@ -22,6 +23,7 @@ class Main(object):
         _manage_tasks()
     """
     def __init__(self):
+        database.initialize()
         self.root = tk.Tk()
         self.model = Model(main=self)
         self.view = View(main=self)

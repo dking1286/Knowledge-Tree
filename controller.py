@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from task import Task
+
 class Controller(object):
     """Manages the user interface, in particular the interest rate slider.
     
@@ -32,7 +34,7 @@ class Controller(object):
         self.main.task_manager.add_task(Task(
             function=self.main.model.load_payoff_times))
         
-    def make_button( self, x, y, command=None, text=None ):
+    def make_button(self, x, y, command=None, text=None):
         """Creates and places a button on the canvas
         args:
             x (int)

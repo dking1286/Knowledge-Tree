@@ -13,9 +13,9 @@ class TaskManager(object):
     """
     def __init__(self, main=None):
         self.main = main
-        self.upcoming_tasks = list()
-        self.tasks = list()
-        self.finished_tasks = list()
+        self._upcoming_tasks = list()
+        self._tasks = list()
+        self._finished_tasks = list()
         
     def add_task(self, task):
         self._upcoming_tasks.append(task)
@@ -33,9 +33,9 @@ class TaskManager(object):
             # Do active tasks
             elif task.state == 'active':
                 if task.description is not None:
-                    print( task.description )
+                    print(task.description)
                 task.execute()
-                self._finished_tasks.append( task )
+                self._finished_tasks.append(task)
         
         #Delete finished tasks
         for task in self._finished_tasks:
@@ -86,4 +86,11 @@ class Task(object):
         self._state = Task.validStates[name]
     
     def execute(self):
-        self.function(*self.args, **self.kwargs)
+        if self.args is None and self.kwargs is None:
+           self.function()
+        elif self.args is None:
+            self.function(**self.kwargs)
+        elif self.kwargs is None:
+            self.function(*self.args)
+        else:
+            self.function(*self.args, **self.kwargs)

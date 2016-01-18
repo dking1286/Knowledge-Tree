@@ -1,7 +1,7 @@
 from constants import *
 from financial_tools import time_until_zero_balance, decimal_range
 import database
-from databse import DATABASE, database_action
+from database import DATABASE, database_action
 
 class Model(object):
     """Contains the internal representations of the data to be displayed.
@@ -50,10 +50,10 @@ class Model(object):
     @database_action(DATABASE)
     def load_payoff_times(self):
         data = database.DataPoint.select()
-            for point in data:
-                Bo, r, p, t = point.Bo, point.r, point.p, point.t
-                self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
-                self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
-                self.payoff_times[Bo][r][p] = t
+        for point in data:
+            Bo, r, p, t = point.Bo, point.r, point.p, point.t
+            self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
+            self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
+            self.payoff_times[Bo][r][p] = t
 
             
