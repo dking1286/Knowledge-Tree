@@ -1,11 +1,4 @@
-from point import Point
-from constants import MINIMUM_MONTHLY_PAYMENT, MAXIMUM_MONTHLY_PAYMENT
 
-def generate_years_vs_payment_data(r, Bo):
-    results = list()
-    for p in range(MINIMUM_MONTHLY_PAYMENT, MAXIMUM_MONTHLY_PAYMENT):
-        results.append(Point(p, time_until_zero_balance(r, Bo, p)))
-    return results
 
 def time_until_zero_balance(r, Bo, p):
     """Calculates the time in years until a loan account will have zero balance
@@ -54,24 +47,22 @@ def account_balance(t=0, r=0, Bo=0, p=0, compounding='monthly'):
     return calculate_account_balance(**params)
 
 def calculate_account_balance(t=0, r=0, Bo=0, p=0):
-    """Returns the remaining balance of a loan at time t, given an interest rate r, initial
-    balance Bo, and payment per unit time p. t, r, and p may be either monthly or yearly,
-    but they must all be compatible.
-    
-    This may be used to calculate either a growing account, like an investment, or
-    a shrinking account, like a debt. In the case of a debt, p should be negative to
-    indicate that the payment is *deducted* from the account balance.
+    """Returns the balance of a loan, given a 
+    starting balance, yearly interest rate, and yearly
+    payment. 
     
     Args:
-        t (numeric): The time in either months or years
-        r (float): The interest rate per unit time
-        Bo (numeric): The initial balance of the account
-        p (numeric): The payment per unit time on the account
+        t (float): The time in years
+        r (float): The yearly interest rate in decimal form
+        Bo (float): The starting balance of the loan
+        P (float): The yearly payment on the loan, or monthly payment if
+            compunding is set to 'monthly'
+        compounding (string): Can be either 'yearly' or 'monthly'
     """
-    if t:
-        return calculate_account_balance(t-1, r, Bo, p)*(1 + r) + p
+    if r:
+        return Bo*(1 + r)**t + p*(float(1 - (1 + r)**t)/(-r))
     else:
-        return Bo
+        return Bo*(1 + r)**t + p*t
 
 def yearly_to_monthly_interest_rate(rate):
     """Converts a yearly interest rate to a monthly interest rate
