@@ -10,12 +10,12 @@ class DataPoint(Model):
     t = DoubleField()
     
     class Meta:
-        databse = DATABASE
+        database = DATABASE
         
-def initialize():
+def initialize(database):
     """Initialize the database"""
     print("Initializing database")
-    DATABASE.create_tables([DataPoint], safe=True)
+    database.create_tables([DataPoint], safe=True)
         
 def database_action(database):
     """Decorator indicating that the function requires the usage of the database.
