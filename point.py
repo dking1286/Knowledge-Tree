@@ -12,41 +12,41 @@ class Point(object):
         operator+( Point p1, Point p2 )
         operator-( Point p1, Point p2 )
         coords()
-        distanceTo( Point other )
+        distance_to( Point other )
     """
-    def __init__( self, x, y ):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
     
-    def __add__( self, other ):
+    def __add__(self, other):
         """Add points componentwise"""
-        return Point( self._x + other._x, self._y + other._y )
+        return Point(self._x + other._x, self._y + other._y)
         
-    def __sub__( self, other ):
+    def __sub__(self, other):
         """Subtract points componentwise"""
-        return Point( self._x - other._x, self._y - other._y )
+        return Point(self._x - other._x, self._y - other._y)
     
-    def coords( self ):
+    def coords(self):
         """Returns a 2-tuple of the x and y coordinates"""
         return self.x, self.y
     
-    def distanceTo( self, other ):
+    def distance_to(self, other):
         """Returns a float representing the distance to another point"""
         return math.sqrt( (self.x - other.x)**2 + (self.y - other.y)**2 )
     
     @property
-    def x( self ):
+    def x(self):
         return self._x
     
     @x.setter
-    def x( self, newX ):
+    def x(self, newX):
         self._x = newX
     
     @property
-    def y( self ):
+    def y(self):
         return self._y
     
     @y.setter
-    def y( self, newY ):
+    def y(self, newY):
         self._y = newY
     
