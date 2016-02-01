@@ -4,6 +4,7 @@ Todo:
   Create GraphManager class to plot points on the Axes
   *Fix Bar class in view.py to change the coordinates of the rectangle when changing the value of the bar,
     instead of redrawing a new rectangle
+  Analyze and fix financial_tools to reflect correct financial formulas
   
 
 Done:
