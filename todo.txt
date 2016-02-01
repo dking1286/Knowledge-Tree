@@ -1,0 +1,8 @@
+Todo:
+  Finish definition and testing of Axes class
+  Test Axes with slider to watch points move
+  Fix documentation in View class
+  Create GraphManager class to plot points on the Axes
+  
+
+Done:
