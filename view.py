@@ -16,6 +16,7 @@ class View(object):
             display
         loading_text (text&): A reference to the text that is displayed above the progress bar
         axes (?): A reference to the set of axes that the points will be displayed on
+        graph_manager (?): A reference to the GraphManager that manages the plotted points on the axes
         
     Public methods:
         View(main=None)
@@ -31,21 +32,24 @@ class View(object):
             raise ValueError()
             
         self.main = main
-        self.canvas = tk.Canvas(self.main.root,
-                                height=CANVAS_HEIGHT,
-                                width=CANVAS_WIDTH,
-                                background='#FFFFFF')
-        self.progress_bar = Bar(self, length=800,
-                                scale_min=0,
-                                scale_max=self.PROGRESS_BAR_SCALE_MAX,
-                                initial_value=0)
+        self.canvas = tk.Canvas(
+          self.main.root,
+          height=CANVAS_HEIGHT,
+          width=CANVAS_WIDTH,
+          background='#FFFFFF')
+        self.progress_bar = Bar(
+          self, length=800,
+          scale_min=0,
+          scale_max=self.PROGRESS_BAR_SCALE_MAX,
+          initial_value=0)
                                 
         self.canvas.grid()
         
 class Bar(object):
-    """Represents a display bar or gauge on the canvas
-    attributes:
-        view (View)
+    """Represents a display bar or gauge on the canvas.
+    
+    Attributes:
+        view (View): A reference to the View instance that this Bar is associated with
         value (numeric)
         orientation (str, property)
         corner (Point): represents the upper-left corner of a horizontal bar
@@ -79,19 +83,21 @@ class Bar(object):
         self.scale_max = scale_max
         self.color = '#0000FF'
         
-        # Place bar on canvas
+        # Calculate corner positions
         if self.orientation == 'horizontal':
             upperLeft = self.corner.coords()
             lowerRight = ( self.corner + Point(self.length, self.width) ).coords()
         elif self.orientation == 'vertical':
             upperLeft = ( self.corner + Point( 0, -self.length ) ).coords()
             lowerRight = ( self.corner + Point( self.width, 0 ) ).coords()
-        self.display = self.view.canvas.create_rectangle( *upperLeft,
-                                                               *lowerRight,
-                                                               fill=self.color )
-        self.border = self.view.canvas.create_rectangle(*upperLeft,
-                                                        *lowerRight,
-                                                        width=3)
+        
+        # Place bar on the canvas
+        self.display = self.view.canvas.create_rectangle( 
+          *upperLeft, *lowerRight,
+          fill=self.color )
+        self.border = self.view.canvas.create_rectangle(
+          *upperLeft, *lowerRight,
+          width=3)
         
         if initial_value != scale_max:
             self.update(initial_value)
@@ -122,6 +128,6 @@ class Bar(object):
         elif self.orientation == 'vertical':
             upperLeft = ( self.corner + Point( 0, -newLength ) ).coords()
             lowerRight = ( self.corner + Point( self.width, 0 ) ).coords()
-        self.display = self.view.canvas.create_rectangle( *upperLeft,
-                                                               *lowerRight,
-                                                               fill=self.color )
+        self.display = self.view.canvas.create_rectangle(
+          *upperLeft, *lowerRight,
+          fill=self.color )
