@@ -1,5 +1,4 @@
 Todo:
-  Test Axes with slider to watch points move
   Create GraphManager class to plot points on the Axes
   *Fix Bar class in view.py to change the coordinates of the rectangle when changing the value of the bar,
     instead of redrawing a new rectangle
@@ -9,3 +8,4 @@ Todo:
 Done:
   Fix documentation in View class
   Finish definition and testing of Axes class
+  Test Axes with slider to watch points move
