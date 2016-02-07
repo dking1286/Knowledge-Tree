@@ -19,12 +19,14 @@ class Controller(object):
             raise ValueError()
             
         self.main = main
-        self.calculate_button = self.make_button(100, 100,
-                                          command=self.on_calculate_button_click,
-                                          text="Calculate data!")
-        self.load_button = self.make_button(200, 100,
-                                            command=self.on_load_button_click,
-                                            text="Load data!")
+        self.calculate_button = self.make_button(
+            100, 100,
+            command=self.on_calculate_button_click,
+            text="Calculate data!")
+        self.load_button = self.make_button(
+            200, 100,
+            command=self.on_load_button_click,
+            text="Load data!")
 
     def on_calculate_button_click(self):
         self.main.task_manager.add_task(Task(

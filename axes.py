@@ -39,6 +39,8 @@ class Axes(object):
     def __init__(self, canvas=None, corner_x=0, corner_y=0, display_width=0, display_height=0,
                  x_min=0, x_max=1000, x_step=100, y_min=0, y_max=1000, y_step=100,
                  x_label='x', y_label='y', x_ticks=True, y_ticks=True):
+        if not canvas:
+            raise ValueError()
         self.canvas = canvas
         self.scale = {
             "x_min": x_min,

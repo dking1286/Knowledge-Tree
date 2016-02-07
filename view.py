@@ -1,9 +1,10 @@
 import tkinter as tk
 
 from constants import (MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP,
-                       MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP,
-                       CANVAS_HEIGHT, CANVAS_WIDTH)
+                       MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP)
+import constants
 from point import Point
+from axes import Axes
 
 class View(object):
     """Manages all of the visible components of the program, including the
@@ -15,7 +16,7 @@ class View(object):
         progress_bar (Bar): A progress bar that displays the progress of calculating the data to
             display
         loading_text (text&): A reference to the text that is displayed above the progress bar
-        axes (?): A reference to the set of axes that the points will be displayed on
+        axes (Axes): A reference to the set of axes that the points will be displayed on
         graph_manager (?): A reference to the GraphManager that manages the plotted points on the axes
         
     Public methods:
@@ -33,15 +34,18 @@ class View(object):
             
         self.main = main
         self.canvas = tk.Canvas(
-          self.main.root,
-          height=CANVAS_HEIGHT,
-          width=CANVAS_WIDTH,
-          background='#FFFFFF')
+            self.main.root,
+            background='#FFFFFF',
+            **constants.canvas_dimensions)
         self.progress_bar = Bar(
-          self, length=800,
-          scale_min=0,
-          scale_max=self.PROGRESS_BAR_SCALE_MAX,
-          initial_value=0)
+            self, length=800,
+            scale_min=0,
+            scale_max=self.PROGRESS_BAR_SCALE_MAX,
+            initial_value=0)
+        self.axes = Axes(
+            canvas=self.canvas,
+            **constants.axes_display,
+            **constants.axes_scale)
                                 
         self.canvas.grid()
         

@@ -49,6 +49,25 @@ MONTHLY_PAYMENT_STEP = 1000
 
 CANVAS_HEIGHT = 800
 CANVAS_WIDTH = 800
+canvas_dimensions = {
+    'height': 800,
+    'width': 800}
+axes_display = {
+    'display_height': 400,
+    'display_width': 400,
+    'corner_x': 100,
+    'corner_y': 100,
+    'x_label': 'Monthly payment ($)',
+    'y_label': 'Time to payoff (yr)'}
+axes_scale = {
+    'x_min': 0,
+    'x_max': 4000,
+    'x_step': 500,
+    'y_min': 0,
+    'y_max': 30,
+    'y_step'; 5}
+
+    
 
 
 
