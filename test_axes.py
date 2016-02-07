@@ -21,6 +21,7 @@ def main():
     axes.add_point(1000, 1)
     create_up_button(root, canvas, axes)
     create_down_button(root, canvas, axes)
+    create_y_value_slider(root, canvas, axes)
     #axes.move_point_in_y_direction(x=5, new_y=10)
     root.mainloop()
     
@@ -41,6 +42,19 @@ def create_down_button(root, canvas, axes):
 def on_down_button_click(axes):
     for point in axes.plotted_points:
         axes.move_point(point, point.x, 0.5 * point.y)
+        
+def create_y_value_slider(root, canvas, axes):
+    slider = tk.Scale(
+        root,
+        from_=0, to=10,
+        resolution=1,
+        command=partial(on_slider_move, axes))
+    canvas.create_window(400, 700, window=slider)
+    return slider
+
+def on_slider_move(axes, new_val):
+    for point in axes.plotted_points:
+        axes.move_point(point, point.x, float(new_val))
         
 if __name__ == '__main__':
     main()
