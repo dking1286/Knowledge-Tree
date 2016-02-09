@@ -69,7 +69,6 @@ class Axes(object):
         self.plotted_points = []
         
         self._draw_on_canvas()
-        print(self.pixels_per_unit)
         
     def add_point(self, x, y, radius=3):
         """Plots a point on the Axes and draws it on the Canvas"""
