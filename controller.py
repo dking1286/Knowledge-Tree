@@ -14,10 +14,10 @@ class Controller(object):
             the data to be displayed.
             
     Public methods:
-        on_calculate_button_click
-        on_load_button_click
-        on_initial_balance_slider_change
-        on_interest_rate_slider_change (event handler for interest rate slider)
+        on_calculate_button_click()
+        on_load_button_click()
+        on_initial_balance_slider_change(new_Bo)
+        on_interest_rate_slider_change(new_r)
         
     """
     def __init__(self, main=None):
@@ -25,6 +25,7 @@ class Controller(object):
             raise ValueError()
             
         self.main = main
+        
         self.calculate_button = self.make_button(
             100, 100,
             command=self.on_calculate_button_click,
