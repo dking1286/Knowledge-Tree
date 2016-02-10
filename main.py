@@ -3,7 +3,6 @@ import tkinter as tk
 from model import Model
 from view import View
 from controller import Controller
-from task import TaskManager
 from database import initialize, DATABASE
 
 class Main(object):
@@ -14,13 +13,9 @@ class Main(object):
         model (Model)
         view (View)
         controller (Controller)
-        task_manager (TaskManager)
         
     Public methods:
-        task_loop()
         main()
-    Private methods:
-        _manage_tasks()
     """
     def __init__(self):
         initialize(DATABASE)
@@ -28,14 +23,8 @@ class Main(object):
         self.model = Model(main=self, db=DATABASE)
         self.view = View(main=self)
         self.controller = Controller(main=self)
-        self.task_manager = TaskManager(main=self)
-        
-    def task_loop(self):
-        self.task_manager.process_tasks()
-        self.root.after(17, self.task_loop)
         
     def main(self):
-        self.task_loop()
         self.root.mainloop()
         
         
