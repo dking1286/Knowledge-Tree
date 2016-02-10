@@ -1,6 +1,5 @@
 import tkinter as tk
 
-from task import Task
 import constants
 
 class Controller(object):
@@ -57,13 +56,11 @@ class Controller(object):
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""
-        self.main.task_manager.add_task(Task(
-            function=self.main.model.calculate_payoff_times))
+        self.main.model.calculate_payoff_times
     
     def on_load_button_click(self):
         """Event handler for load button"""
-        self.main.task_manager.add_task(Task(
-            function=self.main.model.load_payoff_times))
+        self.main.model.load_payoff_times
             
     def on_initial_balance_slider_change(new_Bo):
         """Event handler for initial balance slider"""
