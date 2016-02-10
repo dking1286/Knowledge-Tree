@@ -19,6 +19,9 @@ class Model(object):
     Public methods:
         Model(main=None)
         calculate_payoff_times()
+        load_payoff_times()
+        get_time_vs_payment_data(Bo=0, r=0)
+        get_payoff_time(Bo=0, r=0, p=0)
     """
     def __init__(self, main=None, db=None):    
         self.main = main
@@ -28,6 +31,7 @@ class Model(object):
         self.payoff_times = dict()
     
     def calculate_payoff_times(self):
+        """Calculates payoff time data and stores the results in the database"""
         with self.database.transaction():
             for Bo in constants.initial_balance_range():
                 for r in constants.interest_rate_range():
@@ -42,6 +46,8 @@ class Model(object):
                                 t=result)
     
     def load_payoff_times(self):
+        """Gets all of the data points from the database and loads them into memory as
+        elements of the self.payoff_times dictionary"""
         with self.database.transaction():
             data = database.DataPoint.select()
             for point in data:
@@ -49,8 +55,17 @@ class Model(object):
                 self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
                 self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
                 self.payoff_times[Bo][r][p] = t
+                
+    def get_time_vs_payment_data(self, Bo=0, r=0):
+        """Gets the time vs. payment data for given values of Bo and r.
+        
+        Returns: a dictionary in which the keys are monthly payments and the values are
+            payoff times
+        """
+        return self.payoff_times[Bo][r]
     
     def get_payoff_time(self, Bo=0, r=0, p=0):
+        """Gets the payoff time for given values of Bo, r, and p."""
         return self.payoff_times[Bo][r][p]
 
             
