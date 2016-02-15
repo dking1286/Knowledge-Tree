@@ -1,6 +1,5 @@
 import tkinter as tk
 
-from task import Task
 import constants
 
 class Controller(object):
@@ -10,15 +9,17 @@ class Controller(object):
         main (Main): A reference to the Main instance that contains the Controller instance
         calculate_button (tk.Button)
         load_button (tk.Button)
+        delete_button (tk.Button)
         initial_balance_slider (tk.Scale)
         interest_rate_slider (tk.Scale): A slider that controls the interest rate of
             the data to be displayed.
             
     Public methods:
-        on_calculate_button_click
-        on_load_button_click
-        on_initial_balance_slider_change
-        on_interest_rate_slider_change (event handler for interest rate slider)
+        on_calculate_button_click()
+        on_load_button_click()
+        on_delete_button_click()
+        on_initial_balance_slider_change(new_Bo)
+        on_interest_rate_slider_change(new_r)
         
     """
     def __init__(self, main=None):
@@ -26,6 +27,7 @@ class Controller(object):
             raise ValueError()
             
         self.main = main
+        
         self.calculate_button = self.make_button(
             100, 100,
             command=self.on_calculate_button_click,
@@ -35,6 +37,11 @@ class Controller(object):
             200, 100,
             command=self.on_load_button_click,
             text="Load data!")
+            
+        self.delete_button = self.make_button(
+            300, 100,
+            command=self.on_delete_button_click,
+            text="DANGER!"
             
         self.initial_balance_slider = self.make_scale(
             200, 700,
@@ -57,22 +64,26 @@ class Controller(object):
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""
-        self.main.task_manager.add_task(Task(
-            function=self.main.model.calculate_payoff_times))
+        self.main.model.calculate_payoff_times
     
     def on_load_button_click(self):
         """Event handler for load button"""
-        self.main.task_manager.add_task(Task(
-            function=self.main.model.load_payoff_times))
+        self.main.model.load_payoff_times
+    
+    def on_delete_button_click():
+        """Event handler for delete button"""
+        self.main.model.delete_payoff_times_from_database()
             
     def on_initial_balance_slider_change(new_Bo):
         """Event handler for initial balance slider"""
+        self.main.model.initial_balance = new_Bo
         r = self.main.model.interest_rate
         self.main.view.graph_manager.update_points_for_new_values(new_Bo, r)
     
     def on_interest_rate_slider_change(new_r):
         """Event handler for interest rate slider"""
         Bo = self.main.model.initial_balance_slider
+        self.main.model.interest_rate = new_r
         self.main.view.graph_manager.update_points_for_new_values(Bo, new_r)
         
     def make_button(self, x, y, command=None, text=None):

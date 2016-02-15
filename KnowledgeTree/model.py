@@ -1,5 +1,7 @@
+import math
+
 import constants
-from financial_tools import time_until_zero_balance, decimal_range
+from financial_tools import time_until_zero_balance
 import database
 
 class Model(object):
@@ -19,6 +21,7 @@ class Model(object):
     Public methods:
         Model(main=None)
         calculate_payoff_times()
+        delete_payoff_times_from_database()
         load_payoff_times()
         get_time_vs_payment_data(Bo=0, r=0)
         get_payoff_time(Bo=0, r=0, p=0)
@@ -37,13 +40,28 @@ class Model(object):
                 for r in constants.interest_rate_range():
                     for p in constants.monthly_payment_range():
                         print("Calculating for initial balance {0}, rate {1}, monthly payment {2}".format(Bo, r, p))
-                        result = time_until_zero_balance(r, Bo, p)
-                        if result is not None:
-                            database.DataPoint.create(
-                                Bo=Bo,
-                                r=r,
-                                p=p,
-                                t=result)
+                        t = time_until_zero_balance(r, Bo, p)
+                        if t is not None:
+                            database.create_point(Bo, r, p, t)
+                                
+    def delete_payoff_times_from_database(self):
+        """Generator function returning an iterator that deletes ALL of the data from the database.
+        
+        After each data point is deleted, the iterator yields the percent done with the process.
+        """
+        with self.database.transaction():
+            points = database.DataPoint.select()
+            num_points = points.count()
+            i = 0
+            for point in points:
+                (Bo, r, p, t) = (point.Bo, point.r, point.p, point.t)
+                print("Deleting point with (Bo, r, p, t) = ({0}, {1}, {2}, {3})".format(Bo, r, p, t)) 
+                
+                point.delete_instance()
+                
+                percent_done = math.floor(100 * i / num_points)
+                yield percent_done
+                i += 1
     
     def load_payoff_times(self):
         """Gets all of the data points from the database and loads them into memory as
@@ -66,6 +84,6 @@ class Model(object):
     
     def get_payoff_time(self, Bo=0, r=0, p=0):
         """Gets the payoff time for given values of Bo, r, and p."""
-        return self.payoff_times[Bo][r][p]
+        return database.get_payoff_time(Bo, r, p)
 
             

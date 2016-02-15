@@ -1,3 +1,5 @@
+import constants
+
 class GraphManager(object):
     """Manages the movement of the points on the axes
     
@@ -11,9 +13,7 @@ class GraphManager(object):
         self.view = view
         
     def update_points_for_new_values(Bo, r):
-        for p in self.view.main.model.get_time_vs_payment_data(Bo=Bo, r=r)
+        for p in constants.monthly_payment_range():
             self.view.axes.move_point_in_y_direction(
                 x=p,
-                new_y=self.view.main.model.payoff_times[Bo][r][p])
-            
-        
+                new_y=self.view.main.model.get_payoff_time(Bo=Bo, r=r, p=p))
