@@ -5,6 +5,7 @@ from constants import (MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL
 import constants
 from point import Point
 from axes import Axes
+from graph_manager import GraphManager
 
 class View(object):
     """Manages all of the visible components of the program, including the
@@ -46,6 +47,7 @@ class View(object):
             canvas=self.canvas,
             **constants.axes_display,
             **constants.axes_scale)
+        self.graph_manager = GraphManager(self)
                                 
         self.canvas.grid()
         
