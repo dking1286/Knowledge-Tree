@@ -84,6 +84,10 @@ class Model(object):
     
     def get_payoff_time(self, Bo=0, r=0, p=0):
         """Gets the payoff time for given values of Bo, r, and p."""
-        return database.get_payoff_time(Bo, r, p)
+        try:
+            print("In model,", database.get_payoff_time(Bo, r, p))
+            return database.get_payoff_time(Bo, r, p)
+        except ValueError:
+            raise ValueError("No DataPoint was found with Bo={}, r={}, p={}".format(Bo, r, p))
 
             
