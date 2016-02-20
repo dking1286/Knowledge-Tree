@@ -41,7 +41,7 @@ class Controller(object):
         self.delete_button = self.make_button(
             300, 100,
             command=self.on_delete_button_click,
-            text="DANGER!"
+            text="DANGER!")
             
         self.initial_balance_slider = self.make_scale(
             200, 700,
@@ -64,7 +64,7 @@ class Controller(object):
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""
-        self.main.model.calculate_payoff_times
+        self.main.model.calculate_payoff_times()
     
     def on_load_button_click(self):
         """Event handler for load button"""
@@ -74,15 +74,17 @@ class Controller(object):
         """Event handler for delete button"""
         self.main.model.delete_payoff_times_from_database()
             
-    def on_initial_balance_slider_change(new_Bo):
+    def on_initial_balance_slider_change(self, new_Bo_string):
         """Event handler for initial balance slider"""
+        new_Bo = self.initial_balance_slider.get()
         self.main.model.initial_balance = new_Bo
         r = self.main.model.interest_rate
         self.main.view.graph_manager.update_points_for_new_values(new_Bo, r)
     
-    def on_interest_rate_slider_change(new_r):
+    def on_interest_rate_slider_change(self, new_r_string):
         """Event handler for interest rate slider"""
-        Bo = self.main.model.initial_balance_slider
+        new_r = self.interest_rate_slider.get()
+        Bo = self.main.model.initial_balance
         self.main.model.interest_rate = new_r
         self.main.view.graph_manager.update_points_for_new_values(Bo, new_r)
         
@@ -112,7 +114,7 @@ class Controller(object):
             self.main.root,
             command=command,
             orient=tk.HORIZONTAL,
-            from_=scale_min
+            from_=scale_min,
             to=scale_max,
             label=label,
             resolution=resolution)
