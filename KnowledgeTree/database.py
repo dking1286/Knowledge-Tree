@@ -68,9 +68,3 @@ def print_all_points():
         points = DataPoint.select()
         for point in points:
             print("(Bo, r, p, t) = ({}, {}, {}, {})".format(point.Bo, point.r, point.p, point.t))
-    
-    
-
-    
-    
-
