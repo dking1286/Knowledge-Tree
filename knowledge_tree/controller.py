@@ -21,7 +21,6 @@ class Controller(object):
         on_delete_button_click()
         on_initial_balance_slider_change(new_Bo)
         on_interest_rate_slider_change(new_r)
-        
     """
     def __init__(self, main=None):
         if not main:
