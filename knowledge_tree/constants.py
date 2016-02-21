@@ -1,6 +1,7 @@
-# Actual constant values
+"""Constant values for Knowledge Tree"""
 
-"""
+
+# Actual constant values
 DEFAULT_INTEREST_RATE = 0.0675
 MINIMUM_INTEREST_RATE = 0
 MAXIMUM_INTEREST_RATE = 0.1
@@ -12,9 +13,9 @@ INITIAL_BALANCE_STEP = 1000
 MINIMUM_MONTHLY_PAYMENT = 0
 MAXIMUM_MONTHLY_PAYMENT = 4000
 MONTHLY_PAYMENT_STEP = 100
+
+
 """
-
-
 # Values for testing the system
 DEFAULT_INTEREST_RATE = 0.05
 MINIMUM_INTEREST_RATE = 0
@@ -27,6 +28,7 @@ INITIAL_BALANCE_STEP = 50000
 MINIMUM_MONTHLY_PAYMENT = 0
 MAXIMUM_MONTHLY_PAYMENT = 4000
 MONTHLY_PAYMENT_STEP = 1000
+"""
 
 
 def interest_rate_num_steps():
