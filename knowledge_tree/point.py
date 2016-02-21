@@ -1,5 +1,6 @@
 import math
 
+
 class Point(object):
     """Represents a point in a two dimensional plane
     attributes:
@@ -20,11 +21,11 @@ class Point(object):
     
     def __add__(self, other):
         """Add points componentwise"""
-        return Point(self._x + other._x, self._y + other._y)
+        return Point(self.x + other.x, self.y + other.y)
         
     def __sub__(self, other):
         """Subtract points componentwise"""
-        return Point(self._x - other._x, self._y - other._y)
+        return Point(self.x - other.x, self.y - other.y)
     
     def coords(self):
         """Returns a 2-tuple of the x and y coordinates"""
@@ -48,5 +49,5 @@ class Point(object):
     
     @y.setter
     def y(self, newY):
-        self._y = newY
-    
+        self.y = newY
+

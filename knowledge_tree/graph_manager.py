@@ -1,4 +1,5 @@
-import constants
+import knowledge_tree.constants as constants
+
 
 class GraphManager(object):
     """Manages the movement of the points on the axes
@@ -31,4 +32,3 @@ class GraphManager(object):
                 except ValueError:
                     # If the point isn't already plotted on the graph, add it.
                     self.view.axes.add_point(p, new_y)
-            

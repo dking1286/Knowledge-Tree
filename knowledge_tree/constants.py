@@ -1,6 +1,6 @@
 # Actual constant values
 
-'''
+"""
 DEFAULT_INTEREST_RATE = 0.0675
 MINIMUM_INTEREST_RATE = 0
 MAXIMUM_INTEREST_RATE = 0.1
@@ -12,7 +12,7 @@ INITIAL_BALANCE_STEP = 1000
 MINIMUM_MONTHLY_PAYMENT = 0
 MAXIMUM_MONTHLY_PAYMENT = 4000
 MONTHLY_PAYMENT_STEP = 100
-'''
+"""
 
 
 # Values for testing the system
@@ -32,7 +32,8 @@ MONTHLY_PAYMENT_STEP = 1000
 def interest_rate_num_steps():
     """Returns the number of steps in the interest rate range"""
     return int((MAXIMUM_INTEREST_RATE - MINIMUM_INTEREST_RATE)/INTEREST_RATE_STEP)
-    
+
+
 def interest_rate_range():
     """Generator function returning an iterator to the range of interest rate values"""
     val = MINIMUM_INTEREST_RATE
@@ -40,10 +41,12 @@ def interest_rate_range():
         yield val
         val += INTEREST_RATE_STEP
 
+
 def initial_balance_num_steps():
     """Returns the number of steps in the initial balance range"""
     return int((MAXIMUM_INITIAL_BALANCE - MINIMUM_INITIAL_BALANCE)/INITIAL_BALANCE_STEP)
-    
+
+
 def initial_balance_range():
     """Generator function returning an iterator to the range of initial balance values"""
     val = MINIMUM_INITIAL_BALANCE
@@ -51,17 +54,18 @@ def initial_balance_range():
         yield val
         val += INITIAL_BALANCE_STEP
 
+
 def monthly_payment_num_steps():
     """Returns the number of steps in the monthly payment range"""
     return int((MAXIMUM_MONTHLY_PAYMENT - MINIMUM_MONTHLY_PAYMENT)/MONTHLY_PAYMENT_STEP)
-    
+
+
 def monthly_payment_range():
     """Generator function returning an iterator to the range of monthly payment values"""
     val = MINIMUM_MONTHLY_PAYMENT
     while val <= MAXIMUM_MONTHLY_PAYMENT:
         yield val
         val += MONTHLY_PAYMENT_STEP
-
 
 
 CANVAS_HEIGHT = 800
@@ -83,8 +87,3 @@ axes_scale = {
     'y_min': 0,
     'y_max': 30,
     'y_step': 5}
-
-    
-
-
-

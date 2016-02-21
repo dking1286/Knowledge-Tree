@@ -1,6 +1,7 @@
 import tkinter as tk
 
-import constants
+import knowledge_tree.constants as constants
+
 
 class Controller(object):
     """Manages the user interface components, including buttons and sliders.
@@ -60,7 +61,6 @@ class Controller(object):
             command=self.on_interest_rate_slider_change,
             label="Interest rate")
         self.interest_rate_slider.set(constants.DEFAULT_INTEREST_RATE)
-        
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""
@@ -68,9 +68,9 @@ class Controller(object):
     
     def on_load_button_click(self):
         """Event handler for load button"""
-        self.main.model.load_payoff_times
+        self.main.model.load_payoff_times()
     
-    def on_delete_button_click():
+    def on_delete_button_click(self):
         """Event handler for delete button"""
         self.main.model.delete_payoff_times_from_database()
             
@@ -97,7 +97,7 @@ class Controller(object):
             text (str)
         returns: a reference to the button that was created
         """
-        if command == None:
+        if command is None:
             raise TypeError('A button must have an associated function')
         
         ref = tk.Button(self.main.root, command=command, text=text)

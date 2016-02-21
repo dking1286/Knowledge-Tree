@@ -1,8 +1,9 @@
 import math
 
-import constants
-from financial_tools import time_until_zero_balance
-import database
+import knowledge_tree.constants as constants
+import knowledge_tree.database as database
+from knowledge_tree.financial_tools import time_until_zero_balance
+
 
 class Model(object):
     """Contains the internal representations of the data to be displayed.
@@ -81,13 +82,12 @@ class Model(object):
             payoff times
         """
         return self.payoff_times[Bo][r]
-    
-    def get_payoff_time(self, Bo=0, r=0, p=0):
+
+    @staticmethod
+    def get_payoff_time(Bo=0, r=0, p=0):
         """Gets the payoff time for given values of Bo, r, and p."""
         try:
             print("In model,", database.get_payoff_time(Bo, r, p))
             return database.get_payoff_time(Bo, r, p)
         except ValueError:
             raise ValueError("No DataPoint was found with Bo={}, r={}, p={}".format(Bo, r, p))
-
-            

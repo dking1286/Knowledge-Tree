@@ -1,9 +1,9 @@
 import tkinter as tk
 
-from model import Model
-from view import View
-from controller import Controller
-from database import initialize, DATABASE
+from knowledge_tree.model import Model
+from knowledge_tree.view import View
+from knowledge_tree.controller import Controller
+from knowledge_tree.database import initialize, DATABASE
 
 
 class Main(object):

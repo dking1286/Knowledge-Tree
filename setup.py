@@ -9,7 +9,7 @@ config = {
     'author': 'Daniel Oliver King',
     'author_email': 'daniel.oliver.king@gmail.com',
     'packages': ['knowledge_tree'],
-    'install_requires': ['nose'],
+    'install_requires': ['nose', 'peewee'],
     'scripts': [],
     'description': 'Interactive program that shows how long it will take to pay off a loan'
 }
