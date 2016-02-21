@@ -1,10 +1,12 @@
 import tkinter as tk
 
-from constants import (MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP,
-                       MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP)
-import constants
-from point import Point
-from axes import Axes
+from knowledge_tree.constants import (MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP,
+                                      MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP)
+import knowledge_tree.constants as constants
+from knowledge_tree.point import Point
+from knowledge_tree.axes import Axes
+from knowledge_tree.graph_manager import GraphManager
+
 
 class View(object):
     """Manages all of the visible components of the program, including the
@@ -46,9 +48,11 @@ class View(object):
             canvas=self.canvas,
             **constants.axes_display,
             **constants.axes_scale)
+        self.graph_manager = GraphManager(self)
                                 
         self.canvas.grid()
-        
+
+
 class Bar(object):
     """Represents a display bar or gauge on the canvas.
     
@@ -72,10 +76,10 @@ class Bar(object):
              scale_min=0, scale_max=10 )
         update( newVal )
     """
-    def __init__( self, view, orientation='horizontal',
-                  corner=Point(0, 0), width=40, length=100,
-                  scale_min=0, scale_max=10, color='#0000FF',
-                  initial_value=10):
+    def __init__(self, view, orientation='horizontal',
+                 corner=Point(0, 0), width=40, length=100,
+                 scale_min=0, scale_max=10, color='#0000FF',
+                 initial_value=10):
         # Set internal attributes
         self.view = view
         self.value = initial_value
@@ -89,49 +93,51 @@ class Bar(object):
         
         # Calculate corner positions
         if self.orientation == 'horizontal':
-            upperLeft = self.corner.coords()
-            lowerRight = ( self.corner + Point(self.length, self.width) ).coords()
-        elif self.orientation == 'vertical':
-            upperLeft = ( self.corner + Point( 0, -self.length ) ).coords()
-            lowerRight = ( self.corner + Point( self.width, 0 ) ).coords()
+            upper_left = self.corner.coords()
+            lower_right = (self.corner + Point(self.length, self.width)).coords()
+        else:
+            upper_left = (self.corner + Point(0, -self.length)).coords()
+            lower_right = (self.corner + Point(self.width, 0)).coords()
         
         # Place bar on the canvas
         self.display = self.view.canvas.create_rectangle( 
-          *upperLeft, *lowerRight,
+          *upper_left, *lower_right,
           fill=self.color )
         self.border = self.view.canvas.create_rectangle(
-          *upperLeft, *lowerRight,
+          *upper_left, *lower_right,
           width=3)
         
         if initial_value != scale_max:
             self.update(initial_value)
     
     @property
-    def orientation( self ):
+    def orientation(self):
         return self._orientation
     
     @orientation.setter
-    def orientation( self, newVal ):
-        isValid = (newVal == 'horizontal' or newVal == 'vertical')
-        if not isValid:
+    def orientation(self, new_val):
+        is_valid = (new_val == 'horizontal' or new_val == 'vertical')
+        if not is_valid:
             raise ValueError('orientation can only take the values'
-                             ' \'horizontal\' or \'vertical\'.' )
-        self._orientation = newVal
+                             ' \'horizontal\' or \'vertical\'.')
+        self._orientation = new_val
     
-    def update( self, newVal ):
+    def update(self, newVal):
         """update the length of the bar to reflect the new value"""
         if newVal > self.scale_max or newVal < self.scale_min:
             raise ValueError('The bar\'s maximum or minimum value has been exceeded.')
         
         self.value = newVal
-        newLength = int(self.length*newVal/self.scale_max)
+        new_length = int(self.length*newVal/self.scale_max)
         self.view.canvas.itemconfigure( self.display, state=tk.HIDDEN )
+        assert self.orientation == 'vertical' or self.orientation == 'horizontal'
         if self.orientation == 'horizontal':
-            upperLeft = self.corner.coords()
-            lowerRight = ( self.corner + Point(newLength, self.width) ).coords()
-        elif self.orientation == 'vertical':
-            upperLeft = ( self.corner + Point( 0, -newLength ) ).coords()
-            lowerRight = ( self.corner + Point( self.width, 0 ) ).coords()
+            upper_left = self.corner.coords()
+            lower_right = (self.corner + Point(new_length, self.width)).coords()
+        else:
+            upper_left = (self.corner + Point(0, -new_length)).coords()
+            lower_right = (self.corner + Point(self.width, 0)).coords()
+
         self.display = self.view.canvas.create_rectangle(
-          *upperLeft, *lowerRight,
-          fill=self.color )
+          *upper_left, *lower_right,
+          fill=self.color)

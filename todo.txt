@@ -1,11 +1,25 @@
 Todo:
-  Create GraphManager class to plot points on the Axes
+  Figure out how to deal with the problem that I can't
+    select datapoints from the database because I
+    don't know their exact interest rate value. Maybe
+    have it store the interest rate as an integer,
+    and then divide it by 1000 when I need to use it?
+  Loading all of the datapoints into memory takes up
+    too much memory. Is it possible to have it load
+    directly from the database as needed instead?
+  Implement calculate_payoff_times as a generator
+    to allow for progress bar
+  Implement load_payoff_times as a generator to allow for progress bar
   *Fix Bar class in view.py to change the coordinates of the rectangle when changing the value of the bar,
     instead of redrawing a new rectangle
   Analyze and fix financial_tools to reflect correct financial formulas
   
 
 Done:
+  Implement delete_payoff_times_from_database as a
+    generator function
+  Create button to delete data from database
+  Create GraphManager class to plot points on the Axes
   Fix documentation in View class
   Finish definition and testing of Axes class
   Test Axes with slider to watch points move

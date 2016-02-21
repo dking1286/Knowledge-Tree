@@ -1,6 +1,7 @@
 import tkinter as tk
 
-import constants
+import knowledge_tree.constants as constants
+
 
 class Controller(object):
     """Manages the user interface components, including buttons and sliders.
@@ -9,6 +10,7 @@ class Controller(object):
         main (Main): A reference to the Main instance that contains the Controller instance
         calculate_button (tk.Button)
         load_button (tk.Button)
+        delete_button (tk.Button)
         initial_balance_slider (tk.Scale)
         interest_rate_slider (tk.Scale): A slider that controls the interest rate of
             the data to be displayed.
@@ -16,9 +18,9 @@ class Controller(object):
     Public methods:
         on_calculate_button_click()
         on_load_button_click()
+        on_delete_button_click()
         on_initial_balance_slider_change(new_Bo)
         on_interest_rate_slider_change(new_r)
-        
     """
     def __init__(self, main=None):
         if not main:
@@ -35,6 +37,11 @@ class Controller(object):
             200, 100,
             command=self.on_load_button_click,
             text="Load data!")
+            
+        self.delete_button = self.make_button(
+            300, 100,
+            command=self.on_delete_button_click,
+            text="DANGER!")
             
         self.initial_balance_slider = self.make_scale(
             200, 700,
@@ -53,24 +60,31 @@ class Controller(object):
             command=self.on_interest_rate_slider_change,
             label="Interest rate")
         self.interest_rate_slider.set(constants.DEFAULT_INTEREST_RATE)
-        
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""
-        self.main.model.calculate_payoff_times
+        self.main.model.calculate_payoff_times()
     
     def on_load_button_click(self):
         """Event handler for load button"""
-        self.main.model.load_payoff_times
+        self.main.model.load_payoff_times()
+    
+    def on_delete_button_click(self):
+        """Event handler for delete button"""
+        self.main.model.delete_payoff_times_from_database()
             
-    def on_initial_balance_slider_change(new_Bo):
+    def on_initial_balance_slider_change(self, new_Bo_string):
         """Event handler for initial balance slider"""
+        new_Bo = self.initial_balance_slider.get()
+        self.main.model.initial_balance = new_Bo
         r = self.main.model.interest_rate
         self.main.view.graph_manager.update_points_for_new_values(new_Bo, r)
     
-    def on_interest_rate_slider_change(new_r):
+    def on_interest_rate_slider_change(self, new_r_string):
         """Event handler for interest rate slider"""
-        Bo = self.main.model.initial_balance_slider
+        new_r = self.interest_rate_slider.get()
+        Bo = self.main.model.initial_balance
+        self.main.model.interest_rate = new_r
         self.main.view.graph_manager.update_points_for_new_values(Bo, new_r)
         
     def make_button(self, x, y, command=None, text=None):
@@ -82,7 +96,7 @@ class Controller(object):
             text (str)
         returns: a reference to the button that was created
         """
-        if command == None:
+        if command is None:
             raise TypeError('A button must have an associated function')
         
         ref = tk.Button(self.main.root, command=command, text=text)
@@ -99,7 +113,7 @@ class Controller(object):
             self.main.root,
             command=command,
             orient=tk.HORIZONTAL,
-            from_=scale_min
+            from_=scale_min,
             to=scale_max,
             label=label,
             resolution=resolution)

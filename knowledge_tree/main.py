@@ -1,9 +1,10 @@
 import tkinter as tk
 
-from model import Model
-from view import View
-from controller import Controller
-from database import initialize, DATABASE
+from knowledge_tree.model import Model
+from knowledge_tree.view import View
+from knowledge_tree.controller import Controller
+from knowledge_tree.database import initialize, DATABASE
+
 
 class Main(object):
     """Manages the communication between the Model, View, and Controller instances
@@ -28,5 +29,5 @@ class Main(object):
         self.root.mainloop()
         
         
-if __name__=='__main__':
+if __name__ == '__main__':
     Main().main()

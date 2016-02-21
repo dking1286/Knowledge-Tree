@@ -1,6 +1,7 @@
 import tkinter as tk
 import math
 
+
 class Axes(object):
     """Represents a set of axes to be drawn on a tkinter Canvas
     
@@ -71,7 +72,13 @@ class Axes(object):
         self._draw_on_canvas()
         
     def add_point(self, x, y, radius=3):
-        """Plots a point on the Axes and draws it on the Canvas"""
+        """Plots a point on the Axes and draws it on the Canvas
+
+        Args:
+            x (numeric): The x coordinate of the point
+            y (numeric): The y coordinate of the point
+            radius (numeric): The radius of the circle to be drawn on the axes
+        """
         canvas_x, canvas_y = self._get_canvas_coords(x, y)
         bounding_box = (
             canvas_x - radius,
@@ -240,5 +247,3 @@ class AxesPoint(object):
         self.y = y
         self.reference = reference
         self.radius = radius
-        
-                
