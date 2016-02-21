@@ -1,0 +1,9 @@
+*.pyc
+.idea/.name
+.idea/encodings.xml
+.idea/Loan Payoff Calculator.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+*.db
