@@ -4,9 +4,14 @@ The times and interest rates are decimal values, stored to 4 decimal places of p
 Internally, these values are multiplied by a conversion factor and stored as integers
 """
 
+import os.path
+
 from peewee import *
 
-DATABASE = SqliteDatabase('loan_payoff_data.db')
+directory = os.path.dirname(os.path.abspath(__file__))
+db_name = os.path.join(directory, 'loan_payoff_data.db')
+
+DATABASE = SqliteDatabase(db_name)
 
 
 class DataPoint(Model):
@@ -44,7 +49,12 @@ def get_payoff_time(Bo, r, p):
     """Gets the payoff time associated with the given values of Bo, r, and p"""
     with DATABASE.transaction():
         try:
-            point = DataPoint.get(DataPoint.Bo==Bo and DataPoint.r==decimal_to_int(r) and DataPoint.p==p)
+            query = DataPoint.select().where(
+                DataPoint.Bo == Bo).where(
+                DataPoint.r == decimal_to_int(r)).where(
+                DataPoint.p == p)
+            assert query.count() in (0, 1), "Number of points returned was {}".format(query.count())
+            point = query.get()
             print("In database,", int_to_decimal(point.t))
             return int_to_decimal(point.t)
         except DoesNotExist:

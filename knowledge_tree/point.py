@@ -49,5 +49,5 @@ class Point(object):
     
     @y.setter
     def y(self, newY):
-        self.y = newY
+        self._y = newY
 
