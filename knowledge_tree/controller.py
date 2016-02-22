@@ -45,21 +45,21 @@ class Controller(object):
             
         self.initial_balance_slider = self.make_scale(
             200, 700,
-            scale_min=constants.MINIMUM_INITIAL_BALANCE,
-            scale_max=constants.MAXIMUM_INITIAL_BALANCE,
-            resolution=constants.INITIAL_BALANCE_STEP,
+            scale_min=constants.initial_balance['min'],
+            scale_max=constants.initial_balance['max'],
+            resolution=constants.initial_balance['step'],
             command=self.on_initial_balance_slider_change,
             label="Initial balance")
-        self.initial_balance_slider.set(constants.DEFAULT_INITIAL_BALANCE)
+        self.initial_balance_slider.set(constants.initial_balance['default'])
         
         self.interest_rate_slider = self.make_scale(
             600, 700,
-            scale_min=constants.MINIMUM_INTEREST_RATE,
-            scale_max=constants.MAXIMUM_INTEREST_RATE,
-            resolution=constants.INTEREST_RATE_STEP,
+            scale_min=constants.interest_rate['min'],
+            scale_max=constants.interest_rate['max'],
+            resolution=constants.interest_rate['step'],
             command=self.on_interest_rate_slider_change,
             label="Interest rate")
-        self.interest_rate_slider.set(constants.DEFAULT_INTEREST_RATE)
+        self.interest_rate_slider.set(constants.interest_rate['default'])
 
     def on_calculate_button_click(self):
         """Event handler for calculate button"""

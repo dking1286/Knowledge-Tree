@@ -1,7 +1,5 @@
 import tkinter as tk
 
-from knowledge_tree.constants import (MINIMUM_INITIAL_BALANCE, MAXIMUM_INITIAL_BALANCE, INITIAL_BALANCE_STEP,
-                                      MINIMUM_INTEREST_RATE, MAXIMUM_INTEREST_RATE, INTEREST_RATE_STEP)
 import knowledge_tree.constants as constants
 from knowledge_tree.point import Point
 from knowledge_tree.axes import Axes
@@ -24,10 +22,8 @@ class View(object):
     Public methods:
         View(main=None)
     """ 
-    
-    INTEREST_RATE_NUM_STEPS = (MAXIMUM_INTEREST_RATE - MINIMUM_INTEREST_RATE)/INTEREST_RATE_STEP
-    INITIAL_BALANCE_NUM_STEPS = (MAXIMUM_INITIAL_BALANCE - MINIMUM_INITIAL_BALANCE)/INITIAL_BALANCE_STEP
-    PROGRESS_BAR_SCALE_MAX = INTEREST_RATE_NUM_STEPS * INITIAL_BALANCE_NUM_STEPS
+
+    PROGRESS_BAR_SCALE_MAX = constants.interest_rate_total_steps() * constants.initial_balance_total_steps()
     
     def __init__(self, main=None):
     

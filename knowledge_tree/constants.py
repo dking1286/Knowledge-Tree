@@ -1,77 +1,86 @@
 """Constant values for Knowledge Tree"""
 
-
-# Actual constant values
-DEFAULT_INTEREST_RATE = 0.0675
-MINIMUM_INTEREST_RATE = 0
-MAXIMUM_INTEREST_RATE = 0.1
-INTEREST_RATE_STEP = 0.0001
-DEFAULT_INITIAL_BALANCE = 100000
-MINIMUM_INITIAL_BALANCE = 0
-MAXIMUM_INITIAL_BALANCE = 200000
-INITIAL_BALANCE_STEP = 1000
-MINIMUM_MONTHLY_PAYMENT = 0
-MAXIMUM_MONTHLY_PAYMENT = 4000
-MONTHLY_PAYMENT_STEP = 100
+mode = 'actual'
+interest_rate = {}
+initial_balance = {}
+monthly_payment = {}
 
 
-"""
-# Values for testing the system
-DEFAULT_INTEREST_RATE = 0.05
-MINIMUM_INTEREST_RATE = 0
-MAXIMUM_INTEREST_RATE = 0.1
-INTEREST_RATE_STEP = 0.01
-DEFAULT_INITIAL_BALANCE = 100000
-MINIMUM_INITIAL_BALANCE = 0
-MAXIMUM_INITIAL_BALANCE = 200000
-INITIAL_BALANCE_STEP = 50000
-MINIMUM_MONTHLY_PAYMENT = 0
-MAXIMUM_MONTHLY_PAYMENT = 4000
-MONTHLY_PAYMENT_STEP = 1000
-"""
+def set_mode(new_mode):
+    global mode
+    mode = new_mode
+
+    if mode == 'actual':
+        interest_rate['default'] = 0.0675
+        interest_rate['min'] = 0
+        interest_rate['max'] = 0.1
+        interest_rate['step'] = 0.0001
+
+        initial_balance['default'] = 100000
+        initial_balance['min'] = 0
+        initial_balance['max'] = 200000
+        initial_balance['step'] = 1000
+
+        monthly_payment['min'] = 0
+        monthly_payment['max'] = 4000
+        monthly_payment['step'] = 100
+
+    elif mode == 'test':
+        interest_rate['default'] = 0.05
+        interest_rate['min'] = 0
+        interest_rate['max'] = 0.1
+        interest_rate['step'] = 0.01
+
+        initial_balance['default'] = 100000
+        initial_balance['min'] = 0
+        initial_balance['max'] = 200000
+        initial_balance['step'] = 50000
+
+        monthly_payment['min'] = 0
+        monthly_payment['max'] = 4000
+        monthly_payment['step'] = 1000
+    else:
+        raise ValueError()
 
 
-def interest_rate_num_steps():
+def interest_rate_total_steps():
     """Returns the number of steps in the interest rate range"""
-    return int((MAXIMUM_INTEREST_RATE - MINIMUM_INTEREST_RATE)/INTEREST_RATE_STEP)
+    return int((interest_rate['max'] - interest_rate['min'])/interest_rate['step'])
 
 
 def interest_rate_range():
     """Generator function returning an iterator to the range of interest rate values"""
-    val = MINIMUM_INTEREST_RATE
-    while val <= MAXIMUM_INTEREST_RATE:
+    val = interest_rate['min']
+    while val <= interest_rate['max']:
         yield val
-        val += INTEREST_RATE_STEP
+        val += interest_rate['step']
 
 
-def initial_balance_num_steps():
+def initial_balance_total_steps():
     """Returns the number of steps in the initial balance range"""
-    return int((MAXIMUM_INITIAL_BALANCE - MINIMUM_INITIAL_BALANCE)/INITIAL_BALANCE_STEP)
+    return int((initial_balance['max'] - initial_balance['min'])/initial_balance['step'])
 
 
 def initial_balance_range():
     """Generator function returning an iterator to the range of initial balance values"""
-    val = MINIMUM_INITIAL_BALANCE
-    while val <= MAXIMUM_INITIAL_BALANCE:
+    val = initial_balance['min']
+    while val <= initial_balance['max']:
         yield val
-        val += INITIAL_BALANCE_STEP
+        val += initial_balance['step']
 
 
-def monthly_payment_num_steps():
+def monthly_payment_total_steps():
     """Returns the number of steps in the monthly payment range"""
-    return int((MAXIMUM_MONTHLY_PAYMENT - MINIMUM_MONTHLY_PAYMENT)/MONTHLY_PAYMENT_STEP)
+    return int((monthly_payment['max'] - monthly_payment['min'])/monthly_payment['step'])
 
 
 def monthly_payment_range():
     """Generator function returning an iterator to the range of monthly payment values"""
-    val = MINIMUM_MONTHLY_PAYMENT
-    while val <= MAXIMUM_MONTHLY_PAYMENT:
+    val = monthly_payment['min']
+    while val <= monthly_payment['max']:
         yield val
-        val += MONTHLY_PAYMENT_STEP
+        val += monthly_payment['step']
 
-
-CANVAS_HEIGHT = 800
-CANVAS_WIDTH = 800
 canvas_dimensions = {
     'height': 800,
     'width': 800}
@@ -89,3 +98,5 @@ axes_scale = {
     'y_min': 0,
     'y_max': 30,
     'y_step': 5}
+
+set_mode(mode)
