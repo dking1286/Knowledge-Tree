@@ -83,7 +83,7 @@ def get_time_vs_payment_data(Bo, r):
     result = []
     query = DataPoint.select().where(DataPoint.id << get_ids_for_time_vs_payment_data(Bo, r))
     for point in query:
-        result.append((point.p, point.t))
+        result.append((point.p, int_to_decimal(point.t)))
     return result
 
 
@@ -96,7 +96,8 @@ def get_ids_for_time_vs_payment_data(Bo, r):
         r (numeric): The interest rate on the account, in decimal form
     """
     assert Bo in constants.initial_balance_range()
-    assert r in constants.interest_rate_range()
+    message = "{0} is not in collection {1}".format(r, constants.interest_rate_range())
+    assert r in constants.interest_rate_range(), message
 
     ids = []
     initial_id_val = 0
@@ -128,7 +129,7 @@ def get_ids_for_time_vs_payment_data(Bo, r):
 
 
 def get_num_steps(start, stop, step, this):
-    """Calculates how many steps into a process a given number is located
+    """Calculates how many steps into a numerical process a given number is located
 
     Args:
         start: The start value of the process
@@ -142,7 +143,7 @@ def get_num_steps(start, stop, step, this):
         raise ValueError('Step must be small enough that it fits between start and stop')
 
     result = 0
-    for i in range(start, stop, step):
+    for i in flexible_range(start, stop, step):
         if i >= this:
             return result
         result += 1
@@ -166,3 +167,15 @@ def print_all_points():
         points = DataPoint.select()
         for point in points:
             print("(Bo, r, p, t) = ({}, {}, {}, {})".format(point.Bo, point.r, point.p, point.t))
+
+
+def flexible_range(start, stop, step):
+    """Generator function returning an iterator to the sequence of values from start to stop in steps
+    of step.
+
+    Unlike the builtin range() function, this function accepts float values
+    """
+    val = start
+    while val < stop:
+        yield val
+        val += step

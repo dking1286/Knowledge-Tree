@@ -1,6 +1,6 @@
 """Constant values for Knowledge Tree"""
 
-mode = 'actual'
+mode = 'test'
 interest_rate = {}
 initial_balance = {}
 monthly_payment = {}

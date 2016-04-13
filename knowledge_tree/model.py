@@ -76,14 +76,12 @@ class Model(object):
                 self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
                 self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
                 self.payoff_times[Bo][r][p] = t
-                
-    def get_time_vs_payment_data(self, Bo=0, r=0):
+
+    @staticmethod
+    def get_time_vs_payment_data(Bo=0, r=0):
         """Gets the time vs. payment data for given values of Bo and r.
-        
-        Returns: a dictionary in which the keys are monthly payments and the values are
-            payoff times
         """
-        return self.payoff_times[Bo][r]
+        return database.get_time_vs_payment_data(Bo, r)
 
     @staticmethod
     def get_payoff_time(Bo=0, r=0, p=0):
