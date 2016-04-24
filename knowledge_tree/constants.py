@@ -1,46 +1,58 @@
 """Constant values for Knowledge Tree"""
 
-mode = 'test'
-interest_rate = {}
-initial_balance = {}
-monthly_payment = {}
-
-
-def set_mode(new_mode):
-    global mode
-    mode = new_mode
-
-    if mode == 'actual':
-        interest_rate['default'] = 0.0675
-        interest_rate['min'] = 0
-        interest_rate['max'] = 0.1
-        interest_rate['step'] = 0.0001
-
-        initial_balance['default'] = 100000
-        initial_balance['min'] = 0
-        initial_balance['max'] = 200000
-        initial_balance['step'] = 1000
-
-        monthly_payment['min'] = 0
-        monthly_payment['max'] = 4000
-        monthly_payment['step'] = 100
-
-    elif mode == 'test':
-        interest_rate['default'] = 0.05
-        interest_rate['min'] = 0
-        interest_rate['max'] = 0.1
-        interest_rate['step'] = 0.01
-
-        initial_balance['default'] = 100000
-        initial_balance['min'] = 0
-        initial_balance['max'] = 200000
-        initial_balance['step'] = 50000
-
-        monthly_payment['min'] = 0
-        monthly_payment['max'] = 4000
-        monthly_payment['step'] = 1000
-    else:
-        raise ValueError()
+initial_balance = {
+    'default': 100000,
+    'min': 0,
+    'max': 200000,
+    'step': 1000
+}
+interest_rate = {
+    'default': 0.0675,
+    'min': 0,
+    'max': 0.1,
+    'step': 0.0001
+}
+monthly_payment = {
+    'min': 0,
+    'max': 4000,
+    'step': 100
+}
+canvas_dimensions = {
+    'height': 800,
+    'width': 800
+}
+axes_display = {
+    'display_height': 400,
+    'display_width': 400,
+    'corner_x': 100,
+    'corner_y': 600,
+    'x_label': 'Monthly payment ($)',
+    'y_label': 'Time to payoff (yr)'
+}
+axes_scale = {
+    'x_min': 0,
+    'x_max': 4000,
+    'x_step': 500,
+    'y_min': 0,
+    'y_max': 30,
+    'y_step': 5
+}
+initial_balance_slider_data = {
+    'x': 100,
+    'y': 700,
+    'scale_min': initial_balance['min'],
+    'scale_max': initial_balance['max'],
+    'resolution': initial_balance['step'],
+    'label': "Initial balance ($)"
+}
+interest_rate_slider_data = {
+    'x': 500,
+    'y': 700,
+    'scale_min': interest_rate['min'],
+    'scale_max': interest_rate['max'],
+    'resolution': interest_rate['step'],
+    'label': "APR"
+}
 
 
 def interest_rate_total_steps():
@@ -81,22 +93,5 @@ def monthly_payment_range():
         yield val
         val += monthly_payment['step']
 
-canvas_dimensions = {
-    'height': 800,
-    'width': 800}
-axes_display = {
-    'display_height': 400,
-    'display_width': 400,
-    'corner_x': 100,
-    'corner_y': 600,
-    'x_label': 'Monthly payment ($)',
-    'y_label': 'Time to payoff (yr)'}
-axes_scale = {
-    'x_min': 0,
-    'x_max': 4000,
-    'x_step': 500,
-    'y_min': 0,
-    'y_max': 30,
-    'y_step': 5}
 
-set_mode(mode)
+

@@ -1,9 +1,7 @@
 import tkinter as tk
 
-from knowledge_tree.model import Model
 from knowledge_tree.view import View
 from knowledge_tree.controller import Controller
-from knowledge_tree.database import initialize, DATABASE
 
 
 class Main(object):
@@ -19,9 +17,7 @@ class Main(object):
         main()
     """
     def __init__(self):
-        initialize(DATABASE)
         self.root = tk.Tk()
-        self.model = Model(main=self, db=DATABASE)
         self.view = View(main=self)
         self.controller = Controller(main=self)
         
