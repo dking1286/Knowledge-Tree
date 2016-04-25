@@ -8,6 +8,9 @@ def payments_to_payoff(a, i, p):
         a: The initial loan balance
         i: The interest rate per payment period (NOT per year)
         p: The payment per payment period
+
+    Raises:
+        AssertionError: Raised in the event that any of the three arguments are non-numeric
     """
     assert type(a) == int or type(a) == float, "type of a is {}".format(type(a))
     assert type(i) == int or type(i) == float, "type of i is {}".format(type(i))

@@ -19,6 +19,8 @@ class Axes(object):
     
     Public methods:
         add_point(x, y, radius=3)
+        hide_point(point)
+        show_point(point)
         get_point_by_x(x)
         get_point_by_y(y)
         move_point(point, new_x, new_y)
@@ -87,6 +89,25 @@ class Axes(object):
             canvas_y + radius)
         reference = self.canvas.create_oval(*bounding_box, fill='red', outline='black')
         self.plotted_points.append(AxesPoint(x, y, reference, radius=radius))
+
+    def hide_point(self, point):
+        """Hides a point that has already been plotted on the axis
+
+        Args:
+            point: A reference to the point in the plotted_points list to be hidden
+        """
+        point.visible = False
+        point.reference.coords(point.x, 0)
+        point.reference.item_configure(state=tk.HIDDEN)
+
+    def show_point(self, point):
+        """Shows a point that has been hidden
+
+        Args:
+            point: A reference to the point to be shown
+        """
+        point.visible = True
+        point.reference.item_configure(state=tk.NORMAL)
     
     def get_point_by_x(self, x):
         """Returns an AxesPoint object representing a point plotted on the Axes at a
@@ -247,3 +268,4 @@ class AxesPoint(object):
         self.y = y
         self.reference = reference
         self.radius = radius
+        self.visible = True
