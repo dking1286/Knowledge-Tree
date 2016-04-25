@@ -80,6 +80,8 @@ class Axes(object):
             x (numeric): The x coordinate of the point
             y (numeric): The y coordinate of the point
             radius (numeric): The radius of the circle to be drawn on the axes
+        Returns:
+            A reference to the point that was added
         """
         canvas_x, canvas_y = self._get_canvas_coords(x, y)
         bounding_box = (
@@ -88,7 +90,9 @@ class Axes(object):
             canvas_x + radius,
             canvas_y + radius)
         reference = self.canvas.create_oval(*bounding_box, fill='red', outline='black')
-        self.plotted_points.append(AxesPoint(x, y, reference, radius=radius))
+        point = AxesPoint(x, y, reference, radius=radius)
+        self.plotted_points.append(point)
+        return point
 
     def hide_point(self, point):
         """Hides a point that has already been plotted on the axis
