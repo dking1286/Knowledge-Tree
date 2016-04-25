@@ -101,8 +101,8 @@ class Axes(object):
             point: A reference to the point in the plotted_points list to be hidden
         """
         point.visible = False
-        point.reference.coords(point.x, 0)
-        point.reference.item_configure(state=tk.HIDDEN)
+        self.move_point(point, point.x, 0)
+        self.canvas.itemconfigure(point.reference, state=tk.HIDDEN)
 
     def show_point(self, point):
         """Shows a point that has been hidden
@@ -111,7 +111,7 @@ class Axes(object):
             point: A reference to the point to be shown
         """
         point.visible = True
-        point.reference.item_configure(state=tk.NORMAL)
+        self.canvas.itemconfigure(point.reference, state=tk.NORMAL)
     
     def get_point_by_x(self, x):
         """Returns an AxesPoint object representing a point plotted on the Axes at a
