@@ -6,7 +6,7 @@ import knowledge_tree.constants as constants
 class Controller(object):
 
     def __init__(self, main=None):
-        if not main:
+        if main is None:
             raise ValueError("No value provided for main")
 
         self.main = main
