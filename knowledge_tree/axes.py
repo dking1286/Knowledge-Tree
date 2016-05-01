@@ -19,6 +19,8 @@ class Axes(object):
     
     Public methods:
         add_point(x, y, radius=3)
+        hide_point(point)
+        show_point(point)
         get_point_by_x(x)
         get_point_by_y(y)
         move_point(point, new_x, new_y)
@@ -78,6 +80,8 @@ class Axes(object):
             x (numeric): The x coordinate of the point
             y (numeric): The y coordinate of the point
             radius (numeric): The radius of the circle to be drawn on the axes
+        Returns:
+            A reference to the point that was added
         """
         canvas_x, canvas_y = self._get_canvas_coords(x, y)
         bounding_box = (
@@ -86,7 +90,28 @@ class Axes(object):
             canvas_x + radius,
             canvas_y + radius)
         reference = self.canvas.create_oval(*bounding_box, fill='red', outline='black')
-        self.plotted_points.append(AxesPoint(x, y, reference, radius=radius))
+        point = AxesPoint(x, y, reference, radius=radius)
+        self.plotted_points.append(point)
+        return point
+
+    def hide_point(self, point):
+        """Hides a point that has already been plotted on the axis
+
+        Args:
+            point: A reference to the point in the plotted_points list to be hidden
+        """
+        point.visible = False
+        self.move_point(point, point.x, 0)
+        self.canvas.itemconfigure(point.reference, state=tk.HIDDEN)
+
+    def show_point(self, point):
+        """Shows a point that has been hidden
+
+        Args:
+            point: A reference to the point to be shown
+        """
+        point.visible = True
+        self.canvas.itemconfigure(point.reference, state=tk.NORMAL)
     
     def get_point_by_x(self, x):
         """Returns an AxesPoint object representing a point plotted on the Axes at a
@@ -172,6 +197,7 @@ class Axes(object):
             self._label_y_ticks()
                 
     def _draw_x_axis(self):
+        """Draws the x axis on the canvas"""
         self.canvas.create_line(
             self.corner['x'], self.corner['y'],
             self.corner['x'] + self.display_dimensions['width'], self.corner['y'],
@@ -181,6 +207,7 @@ class Axes(object):
             text=self.axes_labels['x'])
     
     def _draw_y_axis(self):
+        """Draws the y axis on the canvas"""
         self.canvas.create_line(
             self.corner['x'], self.corner['y'],
             self.corner['x'], self.corner['y'] - self.display_dimensions['height'],
@@ -190,24 +217,28 @@ class Axes(object):
             text=self.axes_labels['y'])
             
     def _draw_x_ticks(self):
+        """Draws the x ticks on the canvas"""
         for x, canvas_x in self._x_tick_locations():
             self.canvas.create_line(
                 canvas_x, self.corner['y'] - self.display_dimensions['half_tick_length'],
                 canvas_x, self.corner['y'] + self.display_dimensions['half_tick_length'])
                 
     def _draw_y_ticks(self):
+        """Draws the y ticks on the canvas"""
         for y, canvas_y in self._y_tick_locations():
             self.canvas.create_line(
                 self.corner['x'] - self.display_dimensions['half_tick_length'], canvas_y,
                 self.corner['x'] + self.display_dimensions['half_tick_length'], canvas_y)
 
     def _label_x_ticks(self):
+        """Labels the x ticks on the canvas"""
         for x, canvas_x in self._x_tick_locations():
             self.canvas.create_text(
                 canvas_x, self.corner['y'] + self.display_dimensions['tick_label_offset'],
                 text=str(x), anchor=tk.N)
         
     def _label_y_ticks(self):
+        """Labels the y ticks on the canvas"""
         for y, canvas_y in self._y_tick_locations():
             self.canvas.create_text(
                 self.corner['x'] - self.display_dimensions['tick_label_offset'], canvas_y,
@@ -247,3 +278,4 @@ class AxesPoint(object):
         self.y = y
         self.reference = reference
         self.radius = radius
+        self.visible = True

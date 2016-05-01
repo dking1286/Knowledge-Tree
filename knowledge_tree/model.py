@@ -30,20 +30,22 @@ class Model(object):
     def __init__(self, main=None, db=None):    
         self.main = main
         self.database = db
-        self.interest_rate = constants.DEFAULT_INTEREST_RATE
-        self.initial_balance = constants.DEFAULT_INITIAL_BALANCE
+        self.interest_rate = constants.interest_rate['default']
+        self.initial_balance = constants.initial_balance['default']
         self.payoff_times = dict()
     
     def calculate_payoff_times(self):
         """Calculates payoff time data and stores the results in the database"""
         with self.database.transaction():
+            current_id = 0
             for Bo in constants.initial_balance_range():
                 for r in constants.interest_rate_range():
                     for p in constants.monthly_payment_range():
                         print("Calculating for initial balance {0}, rate {1}, monthly payment {2}".format(Bo, r, p))
                         t = time_until_zero_balance(r, Bo, p)
                         if t is not None:
-                            database.create_point(Bo, r, p, t)
+                            database.create_point(current_id, Bo, r, p, t)
+                        current_id += 1
                                 
     def delete_payoff_times_from_database(self):
         """Generator function returning an iterator that deletes ALL of the data from the database.
@@ -74,14 +76,12 @@ class Model(object):
                 self.payoff_times[Bo] = self.payoff_times.get(Bo, {})
                 self.payoff_times[Bo][r] = self.payoff_times[Bo].get(r, {})
                 self.payoff_times[Bo][r][p] = t
-                
-    def get_time_vs_payment_data(self, Bo=0, r=0):
+
+    @staticmethod
+    def get_time_vs_payment_data(Bo=0, r=0):
         """Gets the time vs. payment data for given values of Bo and r.
-        
-        Returns: a dictionary in which the keys are monthly payments and the values are
-            payoff times
         """
-        return self.payoff_times[Bo][r]
+        return database.get_time_vs_payment_data(Bo, r)
 
     @staticmethod
     def get_payoff_time(Bo=0, r=0, p=0):
