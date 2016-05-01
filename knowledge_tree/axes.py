@@ -197,6 +197,7 @@ class Axes(object):
             self._label_y_ticks()
                 
     def _draw_x_axis(self):
+        """Draws the x axis on the canvas"""
         self.canvas.create_line(
             self.corner['x'], self.corner['y'],
             self.corner['x'] + self.display_dimensions['width'], self.corner['y'],
@@ -206,6 +207,7 @@ class Axes(object):
             text=self.axes_labels['x'])
     
     def _draw_y_axis(self):
+        """Draws the y axis on the canvas"""
         self.canvas.create_line(
             self.corner['x'], self.corner['y'],
             self.corner['x'], self.corner['y'] - self.display_dimensions['height'],
@@ -215,24 +217,28 @@ class Axes(object):
             text=self.axes_labels['y'])
             
     def _draw_x_ticks(self):
+        """Draws the x ticks on the canvas"""
         for x, canvas_x in self._x_tick_locations():
             self.canvas.create_line(
                 canvas_x, self.corner['y'] - self.display_dimensions['half_tick_length'],
                 canvas_x, self.corner['y'] + self.display_dimensions['half_tick_length'])
                 
     def _draw_y_ticks(self):
+        """Draws the y ticks on the canvas"""
         for y, canvas_y in self._y_tick_locations():
             self.canvas.create_line(
                 self.corner['x'] - self.display_dimensions['half_tick_length'], canvas_y,
                 self.corner['x'] + self.display_dimensions['half_tick_length'], canvas_y)
 
     def _label_x_ticks(self):
+        """Labels the x ticks on the canvas"""
         for x, canvas_x in self._x_tick_locations():
             self.canvas.create_text(
                 canvas_x, self.corner['y'] + self.display_dimensions['tick_label_offset'],
                 text=str(x), anchor=tk.N)
         
     def _label_y_ticks(self):
+        """Labels the y ticks on the canvas"""
         for y, canvas_y in self._y_tick_locations():
             self.canvas.create_text(
                 self.corner['x'] - self.display_dimensions['tick_label_offset'], canvas_y,
